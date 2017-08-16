@@ -1,0 +1,74 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.3.RELEASE")
+    }
+}
+
+apply plugin: 'application'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'scala'
+apply plugin: 'org.springframework.boot'
+
+mainClassName = "com.chrisluttazi.sescalamovie.WebApplication"
+
+jar {
+    baseName = 'se-scala-movie'
+    version = '1.0.0.BUILD-SNAPSHOT'
+}
+
+repositories {
+    // jcenter for resolving your dependencies.
+    jcenter()
+
+    mavenCentral()
+
+    // Spring boot repository
+    maven {
+        url 'https://repo.spring.io/libs-snapshot'
+    }
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    // Scala 2.11 restricted because of jwt token library
+    compile group: 'org.scala-lang', name: 'scala-library', version: '2.11.7'
+
+    // Spring Boot
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    // Spring Actuator
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+    // Spring Data JPA
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+    // Spring Data Rest
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest'
+    // Spring Security
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
+    // Spring Test
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    // Spring Data Browser
+    compile group: 'org.springframework.data', name: 'spring-data-rest-hal-browser'
+    // Spring Security Web
+    compile group: 'org.springframework.security', name: 'spring-security-web'
+    // Spring Security Config
+    compile group: 'org.springframework.security', name: 'spring-security-config'
+    // JWT Token library for Spring Security
+    compile group: 'org.visola.spring.security', name: 'spring-security-token-filter-spring-boot-starter', version: '1.1'
+
+    // Persistence
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.13'
+    // Scalatest
+    testCompile 'junit:junit:4.12'
+    testCompile "org.scalatest:scalatest_2.11:3.0.1"
+    // scala test spring
+    testCompile group: 'com.github.scalaspring', name: 'scalatest-spring_2.11', version: '0.3.1'
+    // Need scala-xml at test runtime
+    testRuntime 'org.scala-lang.modules:scala-xml_2.11:1.0.6'
+
+}
+
