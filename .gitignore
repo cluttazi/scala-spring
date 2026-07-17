@@ -1,2 +1,21 @@
-.gradle
-.idea
+# Build output
+build/
+out/
+
+# Gradle
+.gradle/
+
+# IDE files
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

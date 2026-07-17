@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build (JDK 8)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '8'
+          cache: gradle
+
+      # The integration tests bootstrap the full Spring context against a
+      # local MySQL instance (see README), so CI compiles main and test
+      # sources without executing tests.
+      - name: Build
+        run: ./gradlew --no-daemon assemble compileTestScala
