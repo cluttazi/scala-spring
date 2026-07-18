@@ -1,6 +1,6 @@
 package com.chrisluttazi.sescalamovie.messages
 
-import javax.validation.Valid
+import jakarta.validation.Valid
 
 import com.chrisluttazi.sescalamovie.model.CreditCard
 

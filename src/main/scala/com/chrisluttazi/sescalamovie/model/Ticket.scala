@@ -1,14 +1,14 @@
 package com.chrisluttazi.sescalamovie.model
 
-import javax.persistence._
-import javax.validation.constraints.NotNull
+import jakarta.persistence._
+import jakarta.validation.constraints.NotNull
 
 import scala.beans.BeanProperty
 
 @Entity
 class Ticket {
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @BeanProperty
   var ticketId: Long = _
 

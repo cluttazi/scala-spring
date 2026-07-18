@@ -1,6 +1,6 @@
 package com.chrisluttazi.sescalamovie.model
 
-import javax.persistence._
+import jakarta.persistence._
 
 import scala.beans.BeanProperty
 
@@ -8,7 +8,7 @@ import scala.beans.BeanProperty
 @Table(name = "authorities")
 class Authority {
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @BeanProperty
   @Column(name = "authority_id", unique = true, nullable = false)
   var authorityId: Long = _

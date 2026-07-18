@@ -1,7 +1,7 @@
 package com.chrisluttazi.sescalamovie.model
 
-import javax.persistence._
-import javax.validation.constraints.{Max, Min}
+import jakarta.persistence._
+import jakarta.validation.constraints.{Max, Min}
 
 import org.hibernate.validator.constraints.Length
 
@@ -10,7 +10,7 @@ import scala.beans.BeanProperty
 @Entity
 class CreditCard {
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @BeanProperty
   var creditcardId: Long = _
   @BeanProperty

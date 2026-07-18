@@ -1,74 +1,75 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.3.RELEASE")
+plugins {
+    id 'scala'
+    id 'application'
+    id 'org.springframework.boot' version '3.5.16'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.chrisluttazi'
+version = '1.0.0-SNAPSHOT'
+
+base {
+    archivesName = 'se-scala-movie'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
-apply plugin: 'application'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: 'scala'
-apply plugin: 'org.springframework.boot'
-
-mainClassName = "com.chrisluttazi.sescalamovie.WebApplication"
-
-jar {
-    baseName = 'se-scala-movie'
-    version = '1.0.0.BUILD-SNAPSHOT'
+application {
+    mainClass = 'com.chrisluttazi.sescalamovie.WebApplication'
 }
 
 repositories {
-    // jcenter for resolving your dependencies.
-    jcenter()
-
     mavenCentral()
-
-    // Spring boot repository
-    maven {
-        url 'https://repo.spring.io/libs-snapshot'
-    }
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+ext {
+    scalaVersion = '2.13.18'
+    scalatestVersion = '3.2.20'
+    jjwtVersion = '0.13.0'
+}
 
 dependencies {
-    // Scala 2.11 restricted because of jwt token library
-    compile group: 'org.scala-lang', name: 'scala-library', version: '2.11.7'
+    implementation "org.scala-lang:scala-library:${scalaVersion}"
 
     // Spring Boot
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-    // Spring Actuator
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
-    // Spring Data JPA
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
-    // Spring Data Rest
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest'
-    // Spring Security
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
-    // Spring Test
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
-    // Spring Data Browser
-    compile group: 'org.springframework.data', name: 'spring-data-rest-hal-browser'
-    // Spring Security Web
-    compile group: 'org.springframework.security', name: 'spring-security-web'
-    // Spring Security Config
-    compile group: 'org.springframework.security', name: 'spring-security-config'
-    // JWT Token library for Spring Security
-    compile group: 'org.visola.spring.security', name: 'spring-security-token-filter-spring-boot-starter', version: '1.1'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    // HAL explorer (successor of the discontinued hal-browser)
+    implementation 'org.springframework.data:spring-data-rest-hal-explorer'
+
+    // JWT (replaces the abandoned spring-security-token-filter starter)
+    implementation "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jjwtVersion}"
 
     // Persistence
-    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.13'
-    // Scalatest
-    testCompile 'junit:junit:4.12'
-    testCompile "org.scalatest:scalatest_2.11:3.0.1"
-    // scala test spring
-    testCompile group: 'com.github.scalaspring', name: 'scalatest-spring_2.11', version: '0.3.1'
-    // Need scala-xml at test runtime
-    testRuntime 'org.scala-lang.modules:scala-xml_2.11:1.0.6'
+    runtimeOnly 'com.mysql:mysql-connector-j'
 
+    // Tests
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation "org.scalatest:scalatest_2.13:${scalatestVersion}"
+    testImplementation "org.scalatestplus:junit-4-13_2.13:${scalatestVersion}.0"
+    testRuntimeOnly 'com.h2database:h2'
 }
 
+tasks.withType(ScalaCompile).configureEach {
+    scalaCompileOptions.additionalParameters = ['-deprecation', '-feature']
+}
+
+test {
+    // ScalaTest suites run through the JUnit 4 runner (@RunWith(JUnitRunner))
+    useJUnit()
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+    }
+}
