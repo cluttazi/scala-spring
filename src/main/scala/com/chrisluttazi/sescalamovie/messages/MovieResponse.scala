@@ -6,7 +6,7 @@ import com.chrisluttazi.sescalamovie.model.Movie
 
 import scala.beans.BeanProperty
 
-class MovieResponse(movieList: util.ArrayList[Movie]) extends Serializable {
+class MovieResponse(movieList: util.List[Movie]) extends Serializable {
   @BeanProperty
-  var list: util.ArrayList[Movie] = movieList
+  var list: util.List[Movie] = movieList
 }

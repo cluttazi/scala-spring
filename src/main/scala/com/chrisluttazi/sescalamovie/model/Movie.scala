@@ -1,6 +1,6 @@
 package com.chrisluttazi.sescalamovie.model
 
-import javax.persistence._
+import jakarta.persistence._
 
 import org.hibernate.validator.constraints.Length
 
@@ -9,7 +9,7 @@ import scala.beans.BeanProperty
 @Entity
 class Movie {
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @BeanProperty
   var movieId: Long = _
   @BeanProperty

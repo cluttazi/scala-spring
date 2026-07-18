@@ -19,7 +19,7 @@ class TicketController(@Autowired val userRepository: UserRepository,
   def register(@RequestBody ticketRequest: TicketRequest) = {
     try {
       val ticket: Ticket = new Ticket
-      ticket setUser userRepository.findByUsername(ticketRequest.getUserEmail)
+      ticket setUser userRepository.findByUsername(ticketRequest.getUserEmail())
       ticket setMovie movieRepository.findByMovieId(ticketRequest.movieId)
       creditCardRepository save ticketRequest.creditCard
       ticket setCreditcard ticketRequest.creditCard

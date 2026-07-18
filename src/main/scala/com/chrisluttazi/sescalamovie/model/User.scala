@@ -1,9 +1,9 @@
 package com.chrisluttazi.sescalamovie.model
 
 import java.util
-import javax.persistence._
+import jakarta.persistence._
 
-import org.hibernate.validator.constraints.Email
+import jakarta.validation.constraints.Email
 
 import scala.beans.BeanProperty
 
