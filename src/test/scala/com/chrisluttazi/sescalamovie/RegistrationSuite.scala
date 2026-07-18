@@ -51,8 +51,8 @@ class RegistrationSuite extends AnyFlatSpec with Matchers with BeforeAndAfterEac
 
     val saved = userRepository.findByUsername("new.user@example.com")
     saved should not be null
-    saved.getPassword should not be rawPassword
-    passwordEncoder.matches(rawPassword, saved.getPassword) shouldBe true
+    saved.getPassword() should not be rawPassword
+    passwordEncoder.matches(rawPassword, saved.getPassword()) shouldBe true
   }
 
 }
